@@ -11,6 +11,7 @@ import (
 )
 
 const POSTGRESPASS = "POSTGRESPASS"
+const USER = "USER"
 
 func main() {
 	// Load the .env file
@@ -20,8 +21,9 @@ func main() {
 	}
 	// get the database password from .env file
 	POSTGRESPASS := os.Getenv(POSTGRESPASS)
+	USER := os.Getenv(USER)
 	// connect to a database
-	conn, err := sql.Open("pgx", "host=localhost port=5432 dbname=test_DB user=postgres password="+POSTGRESPASS)
+	conn, err := sql.Open("pgx", "host=localhost port=5432 dbname=test_DB user="+USER+" password="+POSTGRESPASS)
 	if err != nil {
 		log.Fatal(fmt.Sprintf("Unable to connect %v\n", err))
 	}
