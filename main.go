@@ -4,14 +4,24 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"os"
 
 	_ "github.com/jackc/pgx/v4/stdlib"
+	"github.com/joho/godotenv"
 )
 
-func main() {
+const POSTGRESPASS = "POSTGRESPASS"
 
+func main() {
+	// Load the .env file
+	err := godotenv.Load(".env")
+	if err != nil {
+		fmt.Println("cant find .env file please show the locations.")
+	}
+	// get the database password from .env file
+	POSTGRESPASS := os.Getenv(POSTGRESPASS)
 	// connect to a database
-	conn, err := sql.Open("pgx", "host=localhost port=5432 dbname=test_DB user=postgres password=2061040215")
+	conn, err := sql.Open("pgx", "host=localhost port=5432 dbname=test_DB user=postgres password="+POSTGRESPASS)
 	if err != nil {
 		log.Fatal(fmt.Sprintf("Unable to connect %v\n", err))
 	}
